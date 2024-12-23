@@ -3,6 +3,7 @@ import 'package:flutter_glow/flutter_glow.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_utils/get_utils.dart';
+import 'package:tic_tac_toe_game/models/user.dart';
 import 'package:tic_tac_toe_game/screen/game/game.screen.dart';
 import 'package:tic_tac_toe_game/screen/game/scan.qr.dart';
 import 'package:tic_tac_toe_game/screen/qr/show.qr.dart';
@@ -11,6 +12,7 @@ import 'package:tic_tac_toe_game/utils/fonts.dart';
 import 'package:tic_tac_toe_game/utils/images.dart';
 import 'package:velocity_x/velocity_x.dart';
 
+import '../../utils/functions.dart';
 import '../game/game.offline.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -21,6 +23,14 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  UserModel? userModel;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    fetchUserData();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,7 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      '1230'
+                      userModel!.role.toString()
                           .text
                           .bold
                           .size(15)

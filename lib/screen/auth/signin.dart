@@ -7,7 +7,9 @@ import 'package:tic_tac_toe_game/screen/home/home.screen.dart';
 import 'package:tic_tac_toe_game/utils/colors.dart';
 import 'package:velocity_x/velocity_x.dart';
 
+import '../../utils/functions.dart';
 import '../../utils/images.dart';
+import '../signout.dart';
 
 
 
@@ -110,7 +112,7 @@ class _LoginPageState extends State<LoginPage> {
               children: [
                 GestureDetector(
                   onTap: () {
-                    // Get.to(() => SignUpPage());
+                    Get.to(() => SignUpPage());
                   },
                   child: 'Sign up'.text.color(Colors.blueAccent).bold.size(13).make(),
                 ),
@@ -150,10 +152,10 @@ class _LoginPageState extends State<LoginPage> {
                             isDismissible:
                             false, // Make it non-dismissible until login is complete
                           );
-                          Get.to(()=>HomeScreen());
-                          // AuthService().signIn(
-                          //     emailController.text.trim().toLowerCase(),
-                          //     passwordController.text.trim());
+                          // Get.to(()=>HomeScreen());
+                          AuthService().signIn(
+                              emailController.text.trim().toLowerCase(),
+                              passwordController.text.trim());
                         }
                       },
                       child: 'Sign in'.text.bold.white.make()),
