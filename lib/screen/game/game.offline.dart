@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:material_dialogs/dialogs.dart';
+import 'package:material_dialogs/widgets/buttons/icon_outline_button.dart';
 import 'package:tic_tac_toe_game/screen/home/home.screen.dart';
 import 'package:velocity_x/velocity_x.dart';
 
@@ -111,6 +113,38 @@ class _TicTacToeGameOfflineState extends State<TicTacToeGameOffline> {
     );
   }
 
+  // Reset Game table
+
+  void _showResetDialog() {
+    Dialogs.materialDialog(
+        color: Colors.white,
+        msg: 'Do you want to reset the game?',
+        title: 'Reset',
+        context: context,
+        actions: [
+          IconsOutlineButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            text: 'No',
+            iconData: Icons.cancel_outlined,
+            textStyle: TextStyle(color: Colors.grey),
+            iconColor: Colors.grey,
+          ),
+          IconsOutlineButton(
+            onPressed: () {
+              resetGame();
+              Navigator.of(context).pop();
+            },
+            text: 'Yes',
+            iconData: Icons.refresh,
+            color: Colors.green,
+            textStyle: TextStyle(color: Colors.white),
+            iconColor: Colors.white,
+          ),
+        ]);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -127,7 +161,9 @@ class _TicTacToeGameOfflineState extends State<TicTacToeGameOffline> {
         actions: [
           IconButton(
             icon: const Icon(Icons.refresh),
-            onPressed: resetGame,
+            onPressed: (){
+              _showResetDialog();
+            },
             color: Colors.blue,
           )
         ],

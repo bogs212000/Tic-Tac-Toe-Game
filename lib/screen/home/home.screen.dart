@@ -36,6 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
     // TODO: implement initState
     super.initState();
     getUserData(setState);
+    getPlayerRank(setState);
   }
 
   @override
@@ -114,22 +115,32 @@ class _HomeScreenState extends State<HomeScreen> {
       body: VxBox(
         child: Column(
           children: [
-            //icons8-trophy-96.png
             Row(
               children: [
-                SizedBox(
-                  height: 50,
-                  width: 50,
-                  child: GlowButton(
-                    borderRadius: BorderRadius.circular(25),
-                    onPressed: () {
-                      Get.to(() => Leaderboard());
-                    },
-                    color: AppColors.btn_colors,
-                    child: Center(
-                        child: Icon(Icons.leaderboard_outlined,
-                            size: 20, color: Colors.white)),
-                  ),
+                Stack(
+                  children: [
+                    SizedBox(
+                      height: 40,
+                      width: 95,
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 10),
+                        child: GlowButton(
+                          borderRadius: BorderRadius.circular(20),
+                          onPressed: () {
+                            Get.to(()=>Leaderboard());
+                          },
+                          color: AppColors.btn_colors,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              '# $rank'.text.bold.size(15).white.make(),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    Image.asset(AppImages.leaderboard, height: 50),
+                  ],
                 ),
               ],
             ),

@@ -111,14 +111,46 @@ class _TicTacToeGameState extends State<TicTacToeGame> {
             textStyle: TextStyle(color: Colors.grey),
             iconColor: Colors.grey,
           ),
-          IconsButton(
+          IconsOutlineButton(
             onPressed: () {
               Navigator.of(context).pop();
               resetGame();
             },
             text: 'Play Again',
             iconData: Icons.gamepad_outlined,
-            color: Colors.red,
+            color: Colors.green,
+            textStyle: TextStyle(color: Colors.white),
+            iconColor: Colors.white,
+          ),
+        ]);
+  }
+
+  // Reset Game table
+
+  void _showResetDialog() {
+    Dialogs.materialDialog(
+        color: Colors.white,
+        msg: 'Do you want to reset the game?',
+        title: 'Reset',
+        context: context,
+        actions: [
+          IconsOutlineButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            text: 'No',
+            iconData: Icons.cancel_outlined,
+            textStyle: TextStyle(color: Colors.grey),
+            iconColor: Colors.grey,
+          ),
+          IconsOutlineButton(
+            onPressed: () {
+              resetGame();
+              Navigator.of(context).pop();
+            },
+            text: 'Yes',
+            iconData: Icons.refresh,
+            color: Colors.green,
             textStyle: TextStyle(color: Colors.white),
             iconColor: Colors.white,
           ),
@@ -141,7 +173,9 @@ class _TicTacToeGameState extends State<TicTacToeGame> {
         actions: [
           IconButton(
             icon: const Icon(Icons.refresh),
-            onPressed: resetGame,
+            onPressed: (){
+              _showResetDialog();
+            },
             color: Colors.blue,
           )
         ],

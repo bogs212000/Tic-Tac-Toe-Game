@@ -26,6 +26,7 @@ class _LeaderboardState extends State<Leaderboard> {
         title: 'Leaderboard'.text.make(),
         backgroundColor: Colors.blueAccent,
         foregroundColor: Colors.white,
+        actions: ['#$rank   '.text.bold.size(20).make(),],
       ),
       body: VxBox(
         child: StreamBuilder<QuerySnapshot>(
