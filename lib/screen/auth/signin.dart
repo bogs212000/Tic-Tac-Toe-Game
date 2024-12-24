@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_glow/flutter_glow.dart';
 import 'package:get/get.dart';
+import 'package:tic_tac_toe_game/screen/auth/forgotpass.dart';
 import 'package:tic_tac_toe_game/screen/home/home.screen.dart';
 import 'package:tic_tac_toe_game/utils/colors.dart';
 import 'package:velocity_x/velocity_x.dart';
@@ -166,9 +167,7 @@ class _LoginPageState extends State<LoginPage> {
               children: [
                 GestureDetector(
                   onTap: (){
-                    // Get.to(()=> PuzzleScreen());
-                    // Get.to(()=> TicTacToeGame());
-                    // Get.to(()=>ForgotPassPage());
+                   Get.to(()=>Forgotpass());
                   },
                   child: 'Forgot password'.text.color(Colors.blueAccent).bold.size(12).make(),
                 ),

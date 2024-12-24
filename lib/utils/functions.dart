@@ -13,6 +13,24 @@ final FirebaseFirestore fbStore = FirebaseFirestore.instance;
 final String? currentUserEmail = FirebaseAuth.instance.currentUser!.email;
 
 class AuthService {
+  Future<void> forgotPass(String email) async {
+    try {
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+      Get.back();
+      Get.snackbar(
+        margin: EdgeInsets.all(10),
+        'Success',
+        'Password reset link has been sent to your email.',
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.green,
+        colorText: Colors.white,
+        duration: Duration(seconds: 3),
+      );
+    } catch (e) {
+      print(e);
+    }
+  }
+
   Future<void> signIn(String email, String password) async {
     try {
       await auth.signInWithEmailAndPassword(email: email, password: password);
@@ -169,7 +187,7 @@ Future<void> getUserData(setState) async {
 
 Future<void> addScore(String playerEmail, int win) async {
   final userRef =
-  FirebaseFirestore.instance.collection('users').doc(playerEmail);
+      FirebaseFirestore.instance.collection('users').doc(playerEmail);
   try {
     await FirebaseFirestore.instance.runTransaction((transaction) async {
       final userDoc = await transaction.get(userRef);
@@ -177,14 +195,14 @@ Future<void> addScore(String playerEmail, int win) async {
         throw Exception("User does not exist!");
       }
 
-      final currentScore =
-          userDoc['wins'] ?? 0; // Default to 0 if not present
+      final currentScore = userDoc['wins'] ?? 0; // Default to 0 if not present
       transaction.update(userRef, {
         'wins': currentScore + win, // Increment total score
       });
     });
+  } catch (e) {
+    print(e);
   }
-   catch (e) {print(e);}
 }
 
 Future<int> getPlayerRank(setState) async {
@@ -203,7 +221,7 @@ Future<int> getPlayerRank(setState) async {
       if (users[i].id == FirebaseAuth.instance.currentUser!.email.toString()) {
         // Rank is index + 1 since ranks are 1-based
         print('rank : $i');
-        setState((){
+        setState(() {
           rank = i + 1;
         });
         return i + 1;
