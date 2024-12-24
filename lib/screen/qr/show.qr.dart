@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_glow/flutter_glow.dart';
 import 'package:get/get.dart';
@@ -34,7 +35,7 @@ class _ShowQrState extends State<ShowQr> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              VxBox(child: QRCode(data: "earllontes@gmail.com"))
+              VxBox(child: QRCode(data: FirebaseAuth.instance.currentUser!.email.toString()))
                   .height(200)
                   .width(200)
                   .shadow

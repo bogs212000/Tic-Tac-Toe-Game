@@ -70,8 +70,8 @@ class _QrScreenState extends State<QrScreen> {
           setState(() {
             _scannedData = result.text;
           });
-          print(_scannedData);
-          Get.offAll(TicTacToeGame());
+          print('Results: $_scannedData');
+          Get.offAll(TicTacToeGame(), arguments: [_scannedData, _scannedData]);
           Get.snackbar(
             icon: Icon(Icons.check_circle, color: Colors.white,),
             margin: EdgeInsets.all(10),

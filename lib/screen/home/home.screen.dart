@@ -1,17 +1,23 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_glow/flutter_glow.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_utils/get_utils.dart';
+import 'package:material_dialogs/dialogs.dart';
+import 'package:material_dialogs/widgets/buttons/icon_button.dart';
+import 'package:material_dialogs/widgets/buttons/icon_outline_button.dart';
 import 'package:tic_tac_toe_game/models/user.dart';
 import 'package:tic_tac_toe_game/screen/game/game.screen.dart';
 import 'package:tic_tac_toe_game/screen/game/scan.qr.dart';
+import 'package:tic_tac_toe_game/screen/leaderboard/leaderboard.dart';
 import 'package:tic_tac_toe_game/screen/qr/show.qr.dart';
 import 'package:tic_tac_toe_game/utils/colors.dart';
 import 'package:tic_tac_toe_game/utils/fonts.dart';
 import 'package:tic_tac_toe_game/utils/images.dart';
 import 'package:velocity_x/velocity_x.dart';
 
+import '../../utils/const.dart';
 import '../../utils/functions.dart';
 import '../game/game.offline.dart';
 
@@ -29,8 +35,9 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    fetchUserData();
+    getUserData(setState);
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,13 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      userModel!.role.toString()
-                          .text
-                          .bold
-                          .size(15)
-                          .fontFamily('Quicksand')
-                          .white
-                          .make(),
+                      wins!.toString().text.bold.size(15).white.make(),
                     ],
                   ),
                 ),
@@ -68,12 +69,46 @@ class _HomeScreenState extends State<HomeScreen> {
         actions: [
           GestureDetector(
             onTap: () {
-              Get.to(()=>ShowQr());
+              Get.to(() => ShowQr());
             },
             child:
                 Image.asset('assets/images/icons8-qr-code-94.png', height: 30)
                     .paddingOnly(right: 20),
-          )
+          ),
+          GestureDetector(
+              onTap: () {
+                Dialogs.bottomMaterialDialog(
+                    msg: 'Are you sure?',
+                    title: 'Sign Out',
+                    context: context,
+                    actions: [
+                      IconsOutlineButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        text: 'Cancel',
+                        iconData: Icons.cancel_outlined,
+                        textStyle: TextStyle(color: Colors.grey),
+                        iconColor: Colors.grey,
+                      ),
+                      IconsOutlineButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                          FirebaseAuth.instance.signOut();
+                        },
+                        text: 'Continue',
+                        iconData: Icons.logout,
+                        color: Colors.blueAccent,
+                        textStyle: TextStyle(color: Colors.white),
+                        iconColor: Colors.white,
+                      ),
+                    ]);
+              },
+              child: const Icon(
+                Icons.logout,
+                color: Colors.blue,
+              )),
+          20.widthBox,
         ],
       ),
       body: VxBox(
@@ -87,20 +122,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   width: 50,
                   child: GlowButton(
                     borderRadius: BorderRadius.circular(25),
-                    onPressed: () {},
-                    color: AppColors.btn_colors,
-                    child: const Center(
-                        child: Icon(Icons.settings,
-                            size: 20, color: Colors.white)),
-                  ),
-                ),
-                10.widthBox,
-                SizedBox(
-                  height: 50,
-                  width: 50,
-                  child: GlowButton(
-                    borderRadius: BorderRadius.circular(25),
-                    onPressed: () {},
+                    onPressed: () {
+                      Get.to(() => Leaderboard());
+                    },
                     color: AppColors.btn_colors,
                     child: Center(
                         child: Icon(Icons.leaderboard_outlined,
@@ -124,7 +148,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: GlowButton(
                 borderRadius: BorderRadius.circular(20),
                 onPressed: () {
-                  Get.to(()=>ScanQr());
+                  Get.to(() => ScanQr());
                 },
                 color: AppColors.btn_colors,
                 child: 'Multiplayer 1v1 (Online)'
@@ -143,7 +167,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: GlowButton(
                 borderRadius: BorderRadius.circular(20),
                 onPressed: () {
-                  Get.to(()=>TicTacToeGameOffline());
+                  Get.to(() => TicTacToeGameOffline());
                 },
                 color: AppColors.btn_colors,
                 child: 'Multiplayer 1v1 (Offline)'

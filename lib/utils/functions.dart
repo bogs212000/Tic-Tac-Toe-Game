@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +6,7 @@ import 'package:get/get_core/src/get_main.dart';
 
 import '../models/user.dart';
 import '../screen/auth/auth.wrapper.dart';
+import 'const.dart';
 
 final FirebaseAuth auth = FirebaseAuth.instance;
 final FirebaseFirestore fbStore = FirebaseFirestore.instance;
@@ -77,7 +77,8 @@ class AuthService {
   Future<void> signUp(String email, String password, String username) async {
     try {
       // Create the user in Firebase Authentication
-      await auth.createUserWithEmailAndPassword(email: email, password: password);
+      await auth.createUserWithEmailAndPassword(
+          email: email, password: password);
 
       // After successful authentication, save user details to Firestore
       await FirebaseFirestore.instance.collection('users').doc(email).set({
@@ -150,4 +151,38 @@ Future<UserModel?> fetchUserData() async {
     print("Error fetching user data: $e");
   }
   return null;
+}
+
+Future<void> getUserData(setState) async {
+  final snapshot = await FirebaseFirestore.instance
+      .collection('users')
+      .doc(FirebaseAuth.instance.currentUser!.email.toString())
+      .get();
+  setState(() {
+    username = snapshot.data()?['username'];
+    role = snapshot.data()?['role'];
+    wins = snapshot.data()?['wins'];
+    email = snapshot.data()?['email'];
+  });
+  print('$wins, $role, $email, $username');
+}
+
+Future<void> addScore(String playerEmail, int win) async {
+  final userRef =
+  FirebaseFirestore.instance.collection('users').doc(playerEmail);
+  try {
+    await FirebaseFirestore.instance.runTransaction((transaction) async {
+      final userDoc = await transaction.get(userRef);
+      if (!userDoc.exists) {
+        throw Exception("User does not exist!");
+      }
+
+      final currentScore =
+          userDoc['wins'] ?? 0; // Default to 0 if not present
+      transaction.update(userRef, {
+        'wins': currentScore + win, // Increment total score
+      });
+    });
+  }
+   catch (e) {print(e);}
 }

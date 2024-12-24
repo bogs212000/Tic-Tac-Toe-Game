@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
+import 'package:material_dialogs/dialogs.dart';
+import 'package:material_dialogs/widgets/buttons/icon_button.dart';
+import 'package:material_dialogs/widgets/buttons/icon_outline_button.dart';
 import 'package:tic_tac_toe_game/screen/home/home.screen.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 import '../../utils/fonts.dart';
+import '../../utils/functions.dart';
 
 class TicTacToeGame extends StatefulWidget {
   @override
@@ -38,8 +43,10 @@ class _TicTacToeGameState extends State<TicTacToeGame> {
           gameResult = '$currentPlayer Wins!';
           if (currentPlayer == 'X') {
             print('X win!');
-          } else if(currentPlayer == 'O'){
+            addScore(Get.arguments[0], 1);
+          } else if (currentPlayer == 'O') {
             print('O win!');
+            addScore(Get.arguments[0], 1);
           }
           _showResultDialog('$currentPlayer Wins!');
         } else if (isDraw()) {
@@ -84,31 +91,38 @@ class _TicTacToeGameState extends State<TicTacToeGame> {
 
   // Show result dialog
   void _showResultDialog(String message) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: Text('Game Over'),
-          content: Text(message),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-                Get.offAll(HomeScreen());
-              },
-              child: Text('Exit'),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-                resetGame();
-              },
-              child: Text('Play Again'),
-            ),
-          ],
-        );
-      },
-    );
+    Dialogs.materialDialog(
+        color: Colors.white,
+        msg: '$message',
+        title: 'Game Over',
+        lottieBuilder: Lottie.asset(
+          'assets/lottie/trophy.json',
+          fit: BoxFit.contain,
+        ),
+        context: context,
+        actions: [
+          IconsOutlineButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+              Get.offAll(HomeScreen());
+            },
+            text: 'Exit',
+            iconData: Icons.cancel_outlined,
+            textStyle: TextStyle(color: Colors.grey),
+            iconColor: Colors.grey,
+          ),
+          IconsButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+              resetGame();
+            },
+            text: 'Play Again',
+            iconData: Icons.gamepad_outlined,
+            color: Colors.red,
+            textStyle: TextStyle(color: Colors.white),
+            iconColor: Colors.white,
+          ),
+        ]);
   }
 
   @override

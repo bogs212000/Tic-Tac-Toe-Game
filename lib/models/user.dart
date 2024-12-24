@@ -24,6 +24,7 @@ class UserModel {
   // Convert the UserModel to a Map (optional, for saving/updating data)
   Map<String, dynamic> toMap() {
     return {
+      'role': role,
       'username': username,
       'email': email,
       'wins': wins,
