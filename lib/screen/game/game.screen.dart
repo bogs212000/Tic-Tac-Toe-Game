@@ -1,3 +1,5 @@
+import 'package:audioplayers/audioplayers.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
@@ -7,8 +9,10 @@ import 'package:material_dialogs/widgets/buttons/icon_outline_button.dart';
 import 'package:tic_tac_toe_game/screen/home/home.screen.dart';
 import 'package:velocity_x/velocity_x.dart';
 
+import '../../utils/const.dart';
 import '../../utils/fonts.dart';
 import '../../utils/functions.dart';
+import '../../utils/sounds.dart';
 
 class TicTacToeGame extends StatefulWidget {
   @override
@@ -36,6 +40,7 @@ class _TicTacToeGameState extends State<TicTacToeGame> {
 
   // Handle a player's move
   void makeMove(int row, int col) {
+    soundWin();
     if (grid[row][col] == '' && gameResult == null) {
       setState(() {
         grid[row][col] = currentPlayer;
@@ -46,7 +51,7 @@ class _TicTacToeGameState extends State<TicTacToeGame> {
             addScore(Get.arguments[0], 1);
           } else if (currentPlayer == 'O') {
             print('O win!');
-            addScore(Get.arguments[0], 1);
+            addScore(FirebaseAuth.instance.currentUser!.email.toString(), 1);
           }
           _showResultDialog('$currentPlayer Wins!');
         } else if (isDraw()) {
@@ -89,11 +94,24 @@ class _TicTacToeGameState extends State<TicTacToeGame> {
     return grid.every((row) => row.every((cell) => cell != ''));
   }
 
+  late AudioPlayer player = AudioPlayer();
+
+  void soundWin() {
+    player.play(AssetSource(AppSounds.win));
+  }
+
+  void tap() {
+    player.play(AssetSource(AppSounds.tap));
+  }
+
   // Show result dialog
   void _showResultDialog(String message) {
+    tap();
     Dialogs.materialDialog(
+        barrierDismissible: false,
         color: Colors.white,
         msg: '$message',
+        msgStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
         title: 'Game Over',
         lottieBuilder: Lottie.asset(
           'assets/lottie/trophy.json',
@@ -173,7 +191,7 @@ class _TicTacToeGameState extends State<TicTacToeGame> {
         actions: [
           IconButton(
             icon: const Icon(Icons.refresh),
-            onPressed: (){
+            onPressed: () {
               _showResetDialog();
             },
             color: Colors.blue,
@@ -184,6 +202,29 @@ class _TicTacToeGameState extends State<TicTacToeGame> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           // Current Player or Game Result
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Transform(
+              alignment: Alignment.center,
+              transform: Matrix4.rotationZ(3.14159),
+              child: Text(
+                '$scannedData',
+                style: const TextStyle(
+                  fontFamily: AppFonts.quicksand,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
+              ),
+            ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              VxBox().color(Colors.pinkAccent).height(4).width(150).rounded.make(),
+              Image.asset('assets/images/1.png', height: 40,),
+            ],
+          ),
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Transform(
@@ -235,12 +276,31 @@ class _TicTacToeGameState extends State<TicTacToeGame> {
             );
           }),
           Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(10),
             child: Text(
               gameResult ?? 'Player turn: $currentPlayer',
               style: const TextStyle(
                 fontFamily: AppFonts.quicksand,
                 fontSize: 24,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+              ),
+            ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset('assets/images/2.png', height: 40,),
+              VxBox().color(Colors.blueAccent).height(4).width(150).rounded.make(),
+            ],
+          ),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Text(
+              FirebaseAuth.instance.currentUser!.email.toString(),
+              style: const TextStyle(
+                fontFamily: AppFonts.quicksand,
+                fontSize: 18,
                 fontWeight: FontWeight.bold,
                 color: Colors.black,
               ),

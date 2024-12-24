@@ -1,8 +1,10 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:material_dialogs/dialogs.dart';
 import 'package:material_dialogs/widgets/buttons/icon_outline_button.dart';
 import 'package:tic_tac_toe_game/screen/home/home.screen.dart';
+import 'package:tic_tac_toe_game/utils/sounds.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 import '../../utils/fonts.dart';
@@ -33,17 +35,18 @@ class _TicTacToeGameOfflineState extends State<TicTacToeGameOffline> {
 
   // Handle a player's move
   void makeMove(int row, int col) {
+    tap();
     if (grid[row][col] == '' && gameResult == null) {
       setState(() {
         grid[row][col] = currentPlayer;
         if (checkWinner(row, col)) {
-          gameResult = '$currentPlayer Wins!';
+          gameResult = ' Wins!';
           if (currentPlayer == 'X') {
-            print('X win!');
+            print('win!');
           } else if(currentPlayer == 'O'){
-            print('O win!');
+            print('win!');
           }
-          _showResultDialog('$currentPlayer Wins!');
+          _showResultDialog(' Wins!');
         } else if (isDraw()) {
           gameResult = 'It\'s a Draw!';
           _showResultDialog('It\'s a Draw!');
@@ -84,14 +87,31 @@ class _TicTacToeGameOfflineState extends State<TicTacToeGameOffline> {
     return grid.every((row) => row.every((cell) => cell != ''));
   }
 
+  late AudioPlayer player = AudioPlayer();
+  void soundWin(){
+    player.play(AssetSource(AppSounds.tap));
+  }
+
+  void tap(){
+    player.play(AssetSource(AppSounds.win));
+  }
   // Show result dialog
   void _showResultDialog(String message) {
+    soundWin();
     showDialog(
+      barrierDismissible: false,
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text('Game Over'),
-          content: Text(message),
+          title: Text(''),
+          content: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              currentPlayer == 'X' ? Image.asset('assets/images/1.png', height: 50,) :
+              Image.asset('assets/images/2.png', height: 70,),
+              message.text.bold.size(40).make()
+            ],
+          ),
           actions: [
             TextButton(
               onPressed: () {
@@ -154,7 +174,7 @@ class _TicTacToeGameOfflineState extends State<TicTacToeGameOffline> {
         title: const Text('Tic Tac Toe'),
         leading: GestureDetector(
           onTap: () {
-            Get.back();
+            Get.offAll(HomeScreen());
           },
           child: const Icon(Icons.arrow_back, color: Colors.blue),
         ),

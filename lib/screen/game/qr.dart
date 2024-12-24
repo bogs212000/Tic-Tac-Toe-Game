@@ -9,6 +9,8 @@ import 'package:tic_tac_toe_game/screen/game/game.screen.dart';
 import 'package:tic_tac_toe_game/utils/fonts.dart';
 import 'package:velocity_x/velocity_x.dart';
 
+import '../../utils/const.dart';
+
 class QrScreen extends StatefulWidget {
   const QrScreen({Key? key}) : super(key: key);
 
@@ -18,7 +20,7 @@ class QrScreen extends StatefulWidget {
 
 class _QrScreenState extends State<QrScreen> {
   bool _isPermissionGranted = false;
-  String? _scannedData;
+
 
   @override
   void initState() {
@@ -68,10 +70,10 @@ class _QrScreenState extends State<QrScreen> {
         typeScan: TypeScan.live,
         onCapture: (Result result) {
           setState(() {
-            _scannedData = result.text;
+            scannedData = result.text;
           });
-          print('Results: $_scannedData');
-          Get.offAll(TicTacToeGame(), arguments: [_scannedData, _scannedData]);
+          print('Results: $scannedData');
+          Get.offAll(TicTacToeGame(), arguments: [scannedData, scannedData]);
           Get.snackbar(
             icon: Icon(Icons.check_circle, color: Colors.white,),
             margin: EdgeInsets.all(10),

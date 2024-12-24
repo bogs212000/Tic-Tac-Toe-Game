@@ -10,6 +10,7 @@ import 'package:tic_tac_toe_game/utils/fonts.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 import '../../utils/colors.dart';
+import '../home/home.screen.dart';
 
 class ShowQr extends StatefulWidget {
   const ShowQr({super.key});
@@ -52,7 +53,7 @@ class _ShowQrState extends State<ShowQr> {
             child: GlowButton(
               borderRadius: BorderRadius.circular(20),
               onPressed: () {
-                Get.back();
+                Get.offAll(HomeScreen());
               },
               color: AppColors.btn_colors,
               child: 'Back to Home'

@@ -39,13 +39,18 @@ class _ForgotpassState extends State<Forgotpass> {
                     .make(),
               ],
             ),
-            'Please input your account email'
-                .text
-                .bold
-                .black
-                .fontFamily(AppFonts.quicksand)
-                .size(15)
-                .make(),
+            Row(
+              children: [
+                'Please input your account email'
+                    .text
+                    .bold
+                    .black
+                    .fontFamily(AppFonts.quicksand)
+                    .size(15)
+                    .make(),
+              ],
+            ),
+            10.heightBox,
             SizedBox(
               height: 50,
               child: TextField(
@@ -76,6 +81,7 @@ class _ForgotpassState extends State<Forgotpass> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 SizedBox(
+                  width: 140,
                   height: 40,
                   child: GlowButton(
                       borderRadius: BorderRadius.circular(20),

@@ -6,3 +6,6 @@ String? email;
 
 //rank
 int? rank;
+
+//
+String? scannedData;
