@@ -78,6 +78,7 @@ flutter:
     - assets/lottie/
     - assets/images/icons8-tic-tac-toe-64.png
     - assets/sounds/victory-sound.mp3
+    - assets/sounds/mixkit-video-game-win-2016.wav
     - assets/sounds/yeah-boiii-i-i-i.mp3
     - assets/images/icons8-show-password-96.png
   #   - images/a_dot_ham.jpeg

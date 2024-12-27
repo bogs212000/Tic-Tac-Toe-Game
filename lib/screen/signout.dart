@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:velocity_x/velocity_x.dart';
 import '../utils/colors.dart';
+import '../utils/fonts.dart';
 import '../utils/functions.dart';
 
 
@@ -28,21 +29,41 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: 'Sign up'.text.color(Colors.blueAccent).make(),
+        title: ''.text.color(Colors.blueAccent).make(),
         centerTitle: true,
         foregroundColor: AppColors.btn_colors,
         backgroundColor: Colors.white,
       ),
       body: Container(
-        padding: EdgeInsets.only(right: 40, left: 40, top: 10),
+        padding: EdgeInsets.only(right: 20, left: 20, top: 10),
         color: Colors.white,
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         child: SingleChildScrollView(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              20.heightBox,
+              40.heightBox,
+              Row(
+                children: [
+                  'Create Account'
+                      .text
+                      .bold
+                      .color(Colors.blueAccent)
+                      .size(20)
+                      .make(),
+                ],
+              ),
+              Row(
+                children: [
+                  'Please input the required details'
+                      .text
+                      .bold
+                      .black
+                      .fontFamily(AppFonts.quicksand)
+                      .size(15)
+                      .make(),
+                ],
+              ),
               SizedBox(
                 height: 50,
                 child: TextField(

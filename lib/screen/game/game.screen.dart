@@ -1,6 +1,7 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_glow/flutter_glow.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:material_dialogs/dialogs.dart';
@@ -9,9 +10,11 @@ import 'package:material_dialogs/widgets/buttons/icon_outline_button.dart';
 import 'package:tic_tac_toe_game/screen/home/home.screen.dart';
 import 'package:velocity_x/velocity_x.dart';
 
+import '../../utils/colors.dart';
 import '../../utils/const.dart';
 import '../../utils/fonts.dart';
 import '../../utils/functions.dart';
+import '../../utils/images.dart';
 import '../../utils/sounds.dart';
 
 class TicTacToeGame extends StatefulWidget {
@@ -49,9 +52,12 @@ class _TicTacToeGameState extends State<TicTacToeGame> {
           if (currentPlayer == 'X') {
             print('X win!');
             addScore(Get.arguments[0], 1);
+            getUserData(setState);
           } else if (currentPlayer == 'O') {
             print('O win!');
+            wins! + 1;
             addScore(FirebaseAuth.instance.currentUser!.email.toString(), 1);
+            getUserData(setState);
           }
           _showResultDialog('$currentPlayer Wins!');
         } else if (isDraw()) {
@@ -208,7 +214,7 @@ class _TicTacToeGameState extends State<TicTacToeGame> {
               alignment: Alignment.center,
               transform: Matrix4.rotationZ(3.14159),
               child: Text(
-                '$scannedData',
+                Get.arguments[0],
                 style: const TextStyle(
                   fontFamily: AppFonts.quicksand,
                   fontSize: 18,
@@ -230,14 +236,22 @@ class _TicTacToeGameState extends State<TicTacToeGame> {
             child: Transform(
               alignment: Alignment.center,
               transform: Matrix4.rotationZ(3.14159),
-              child: Text(
-                gameResult ?? 'Player turn: $currentPlayer',
-                style: const TextStyle(
-                  fontFamily: AppFonts.quicksand,
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    gameResult ?? 'Player turn: ',
+                    style: const TextStyle(
+                      fontFamily: AppFonts.quicksand,
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
+                  ),
+                  currentPlayer == 'O'
+                      ? Image.asset('assets/images/2.png', height: 50)
+                      : Image.asset('assets/images/1.png', height: 50)
+                ],
               ),
             ),
           ),
@@ -277,14 +291,46 @@ class _TicTacToeGameState extends State<TicTacToeGame> {
           }),
           Padding(
             padding: const EdgeInsets.all(10),
-            child: Text(
-              gameResult ?? 'Player turn: $currentPlayer',
-              style: const TextStyle(
-                fontFamily: AppFonts.quicksand,
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
-              ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  gameResult ?? 'Player turn: ',
+                  style: const TextStyle(
+                    fontFamily: AppFonts.quicksand,
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+                ),
+                currentPlayer == 'O'
+                    ? Image.asset('assets/images/2.png', height: 50)
+                    : Image.asset('assets/images/1.png', height: 50),
+                // Spacer(),
+                // Stack(
+                //   children: [
+                //     SizedBox(
+                //       height: 35,
+                //       width: 90,
+                //       child: Padding(
+                //         padding: const EdgeInsets.only(top: 5),
+                //         child: GlowButton(
+                //           borderRadius: BorderRadius.circular(20),
+                //           onPressed: () {},
+                //           color: AppColors.btn_colors,
+                //           child: Row(
+                //             mainAxisAlignment: MainAxisAlignment.end,
+                //             children: [
+                //               wins!.toString().text.bold.size(15).white.make(),
+                //             ],
+                //           ),
+                //         ),
+                //       ),
+                //     ),
+                //     Image.asset(AppImages.trophy, height: 40),
+                //   ],
+                // ),
+              ],
             ),
           ),
           Row(

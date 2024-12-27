@@ -43,7 +43,7 @@ class _TicTacToeGameOfflineState extends State<TicTacToeGameOffline> {
           gameResult = ' Wins!';
           if (currentPlayer == 'X') {
             print('win!');
-          } else if(currentPlayer == 'O'){
+          } else if (currentPlayer == 'O') {
             print('win!');
           }
           _showResultDialog(' Wins!');
@@ -88,13 +88,15 @@ class _TicTacToeGameOfflineState extends State<TicTacToeGameOffline> {
   }
 
   late AudioPlayer player = AudioPlayer();
-  void soundWin(){
+
+  void soundWin() {
     player.play(AssetSource(AppSounds.tap));
   }
 
-  void tap(){
+  void tap() {
     player.play(AssetSource(AppSounds.win));
   }
+
   // Show result dialog
   void _showResultDialog(String message) {
     soundWin();
@@ -107,9 +109,16 @@ class _TicTacToeGameOfflineState extends State<TicTacToeGameOffline> {
           content: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              currentPlayer == 'X' ? Image.asset('assets/images/1.png', height: 50,) :
-              Image.asset('assets/images/2.png', height: 70,),
-              message.text.bold.size(40).make()
+              currentPlayer == 'X'
+                  ? Image.asset(
+                      'assets/images/1.png',
+                      height: 50,
+                    )
+                  : Image.asset(
+                      'assets/images/2.png',
+                      height: 70,
+                    ),
+              message.text.bold.size(30).make()
             ],
           ),
           actions: [
@@ -181,7 +190,7 @@ class _TicTacToeGameOfflineState extends State<TicTacToeGameOffline> {
         actions: [
           IconButton(
             icon: const Icon(Icons.refresh),
-            onPressed: (){
+            onPressed: () {
               _showResetDialog();
             },
             color: Colors.blue,
@@ -197,14 +206,22 @@ class _TicTacToeGameOfflineState extends State<TicTacToeGameOffline> {
             child: Transform(
               alignment: Alignment.center,
               transform: Matrix4.rotationZ(3.14159),
-              child: Text(
-                gameResult ?? 'Player turn: $currentPlayer',
-                style: const TextStyle(
-                  fontFamily: AppFonts.quicksand,
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    gameResult ?? 'Player turn: ',
+                    style: const TextStyle(
+                      fontFamily: AppFonts.quicksand,
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
+                  ),
+                  currentPlayer == 'O'
+                      ? Image.asset('assets/images/2.png', height: 50)
+                      : Image.asset('assets/images/1.png', height: 50)
+                ],
               ),
             ),
           ),
@@ -233,10 +250,10 @@ class _TicTacToeGameOfflineState extends State<TicTacToeGameOffline> {
                     child: grid[row][col] == ''
                         ? null
                         : Image.asset(
-                      grid[row][col] == 'X'
-                          ? 'assets/images/1.png'
-                          : 'assets/images/2.png',
-                    ),
+                            grid[row][col] == 'X'
+                                ? 'assets/images/1.png'
+                                : 'assets/images/2.png',
+                          ),
                   ),
                 );
               }),
@@ -244,14 +261,22 @@ class _TicTacToeGameOfflineState extends State<TicTacToeGameOffline> {
           }),
           Padding(
             padding: const EdgeInsets.all(16.0),
-            child: Text(
-              gameResult ?? 'Player turn: $currentPlayer',
-              style: const TextStyle(
-                fontFamily: AppFonts.quicksand,
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
-              ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  gameResult ?? 'Player turn: ',
+                  style: const TextStyle(
+                    fontFamily: AppFonts.quicksand,
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+                ),
+                currentPlayer == 'O'
+                    ? Image.asset('assets/images/2.png', height: 50)
+                    : Image.asset('assets/images/1.png', height: 50)
+              ],
             ),
           ),
         ],

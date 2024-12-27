@@ -1,14 +1,13 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:tic_tac_toe_game/screen/home/home.screen.dart';
 import 'package:tic_tac_toe_game/utils/fonts.dart';
 import 'package:tic_tac_toe_game/utils/images.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 import '../../utils/const.dart';
-
 
 class Leaderboard extends StatefulWidget {
   const Leaderboard({super.key});
@@ -22,11 +21,19 @@ class _LeaderboardState extends State<Leaderboard> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: GestureDetector(
+          onTap: () {
+            Get.offAll(HomeScreen());
+          },
+          child: Icon(Icons.arrow_back_outlined),
+        ),
         centerTitle: true,
         title: 'Leaderboard'.text.make(),
         backgroundColor: Colors.blueAccent,
         foregroundColor: Colors.white,
-        actions: ['#$rank   '.text.bold.size(20).make(),],
+        actions: [
+          '#$rank   '.text.bold.size(20).make(),
+        ],
       ),
       body: VxBox(
         child: StreamBuilder<QuerySnapshot>(
@@ -94,11 +101,18 @@ class _LeaderboardState extends State<Leaderboard> {
                                         ],
                                       ),
                                       Row(
-                                        mainAxisAlignment: MainAxisAlignment.end,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
                                         children: [
-                                         VxBox().height(5).width(150).color(Colors.blueAccent).rounded.make(),
+                                          VxBox()
+                                              .height(5)
+                                              .width(150)
+                                              .color(Colors.blueAccent)
+                                              .rounded
+                                              .make(),
                                           Spacer(),
-                                          Image.asset(AppImages.trophy, height: 15),
+                                          Image.asset(AppImages.trophy,
+                                              height: 15),
                                           '$score wins'.text.size(15).make(),
                                         ],
                                       ),
@@ -109,7 +123,14 @@ class _LeaderboardState extends State<Leaderboard> {
                             ],
                           ),
                         ),
-                      ).height(100).rounded.shadowXs.color(rank != index +1 ? Colors.blue.shade100 : Colors.white).make(),
+                      )
+                          .height(100)
+                          .rounded
+                          .shadowXs
+                          .color(rank != index + 1
+                              ? Colors.blue.shade100
+                              : Colors.white)
+                          .make(),
                     ),
                   );
                 },

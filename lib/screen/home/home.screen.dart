@@ -8,6 +8,7 @@ import 'package:material_dialogs/dialogs.dart';
 import 'package:material_dialogs/widgets/buttons/icon_button.dart';
 import 'package:material_dialogs/widgets/buttons/icon_outline_button.dart';
 import 'package:tic_tac_toe_game/models/user.dart';
+import 'package:tic_tac_toe_game/screen/auth/auth.wrapper.dart';
 import 'package:tic_tac_toe_game/screen/game/game.screen.dart';
 import 'package:tic_tac_toe_game/screen/game/scan.qr.dart';
 import 'package:tic_tac_toe_game/screen/home/loading.screen.dart';
@@ -99,6 +100,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               onPressed: () {
                                 Navigator.pop(context);
                                 FirebaseAuth.instance.signOut();
+                                Get.offAll(AuthWrapper());
                               },
                               text: 'Continue',
                               iconData: Icons.logout,
