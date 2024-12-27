@@ -10,6 +10,7 @@ import 'package:material_dialogs/widgets/buttons/icon_outline_button.dart';
 import 'package:tic_tac_toe_game/models/user.dart';
 import 'package:tic_tac_toe_game/screen/auth/auth.wrapper.dart';
 import 'package:tic_tac_toe_game/screen/game/game.screen.dart';
+import 'package:tic_tac_toe_game/screen/game/offline.9x9.dart';
 import 'package:tic_tac_toe_game/screen/game/scan.qr.dart';
 import 'package:tic_tac_toe_game/screen/home/loading.screen.dart';
 import 'package:tic_tac_toe_game/screen/leaderboard/leaderboard.dart';
@@ -187,6 +188,25 @@ class _HomeScreenState extends State<HomeScreen> {
                       },
                       color: AppColors.btn_colors,
                       child: 'Multiplayer 1v1 (Offline)'
+                          .text
+                          .bold
+                          .size(20)
+                          .fontFamily('Quicksand')
+                          .white
+                          .make(),
+                    ),
+                  ),
+                  20.heightBox,
+                  SizedBox(
+                    height: 50,
+                    width: double.infinity,
+                    child: GlowButton(
+                      borderRadius: BorderRadius.circular(20),
+                      onPressed: () {
+                        Get.to(() => TicTacToeGameOffline9x9());
+                      },
+                      color: AppColors.btn_colors,
+                      child: 'Multiplayer : 3 player (Offline 5x5)'
                           .text
                           .bold
                           .size(20)
