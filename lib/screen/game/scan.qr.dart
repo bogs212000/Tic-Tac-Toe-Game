@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_glow/flutter_glow.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -49,7 +50,9 @@ class _ScanQrState extends State<ScanQr> {
                 ],
               ),
             ),
-          ),
+          ).animate()
+              .fade(duration: 200.ms)
+              .scale(delay: 200.ms),
         ],
       ),)
           .height(MediaQuery.of(context).size.height)

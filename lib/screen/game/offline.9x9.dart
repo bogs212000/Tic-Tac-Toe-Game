@@ -17,7 +17,7 @@ class TicTacToeGameOffline9x9 extends StatefulWidget {
 
 class _TicTacToeGameOffline9x9State extends State<TicTacToeGameOffline9x9> {
   // The 3x3 grid
-  List<List<String>> grid = List.generate(5, (_) => List.filled(5, ''));
+  List<List<String>> grid = List.generate(4, (_) => List.filled(4, ''));
 
   // Current player ('X' or 'O')
   String currentPlayer = 'O'; // Start with 'O'
@@ -30,7 +30,7 @@ class _TicTacToeGameOffline9x9State extends State<TicTacToeGameOffline9x9> {
   // Reset the game
   void resetGame() {
     setState(() {
-      grid = List.generate(5, (_) => List.filled(5, ''));
+      grid = List.generate(4, (_) => List.filled(4, ''));
       currentPlayer = 'O'; // Reset to 'O'
       gameResult = null;
     });
@@ -57,41 +57,25 @@ class _TicTacToeGameOffline9x9State extends State<TicTacToeGameOffline9x9> {
     }
   }
 
-  // Check if the current player has won
   bool checkWinner(int row, int col) {
-    // Check row for 3 consecutive marks
-    for (int startCol = 0; startCol <= col; startCol++) {
-      if (col + 2 < grid[row].length) {
-        if (grid[row]
-            .skip(startCol)
-            .take(3)
+    // Check row
+    if (grid[row].every((cell) => cell == currentPlayer)) return true;
+
+    // Check column
+    if (grid.every((r) => r[col] == currentPlayer)) return true;
+
+    // Check diagonal (top-left to bottom-right)
+    if (row == col &&
+        List.generate(3, (i) => grid[i][i])
             .every((cell) => cell == currentPlayer)) {
-          return true;
-        }
-      }
+      return true;
     }
 
-    // Check column for 3 consecutive marks
-    for (int startRow = 0; startRow <= row; startRow++) {
-      if (row + 2 < grid.length) {
-        if (grid.skip(startRow).take(3).every((r) => r[col] == currentPlayer)) {
-          return true;
-        }
-      }
-    }
-
-    // Check diagonal (top-left to bottom-right) for 3 consecutive marks
-    for (int i = 0; i < 3; i++) {
-      if (grid[row + i][col + i] != currentPlayer) {
-        return false;
-      }
-    }
-
-    // Check anti-diagonal (top-right to bottom-left) for 3 consecutive marks
-    for (int i = 0; i < 3; i++) {
-      if (grid[row + i][col - i] != currentPlayer) {
-        return false;
-      }
+    // Check anti-diagonal (top-right to bottom-left)
+    if (row + col == 2 &&
+        List.generate(3, (i) => grid[i][2 - i])
+            .every((cell) => cell == currentPlayer)) {
+      return true;
     }
 
     return false;
@@ -250,16 +234,16 @@ class _TicTacToeGameOffline9x9State extends State<TicTacToeGameOffline9x9> {
             ),
           ),
           // Tic Tac Toe Grid
-          ...List.generate(5, (row) {
+          ...List.generate(4, (row) {
             return Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: List.generate(5, (col) {
+              children: List.generate(4, (col) {
                 return GestureDetector(
                   onTap: () => makeMove(row, col),
                   child: Container(
-                    width: 60,
-                    height: 60,
-                    margin: const EdgeInsets.all(4),
+                    width: 70,
+                    height: 70,
+                    margin: const EdgeInsets.all(1),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(10),

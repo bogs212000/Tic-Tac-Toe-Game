@@ -1,5 +1,6 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:get/get.dart';
 import 'package:material_dialogs/dialogs.dart';
 import 'package:material_dialogs/widgets/buttons/icon_outline_button.dart';
@@ -222,7 +223,9 @@ class _TicTacToeGameOfflineState extends State<TicTacToeGameOffline> {
                       ? Image.asset('assets/images/2.png', height: 50)
                       : Image.asset('assets/images/1.png', height: 50)
                 ],
-              ),
+              ).animate()
+                  .fade(duration: 200.ms)
+                  .scale(delay: 200.ms),
             ),
           ),
           // Tic Tac Toe Grid
@@ -253,11 +256,15 @@ class _TicTacToeGameOfflineState extends State<TicTacToeGameOffline> {
                             grid[row][col] == 'X'
                                 ? 'assets/images/1.png'
                                 : 'assets/images/2.png',
-                          ),
+                          ).animate()
+                        .fade(duration: 100.ms)
+                        .scale(delay: 100.ms),
                   ),
                 );
               }),
-            );
+            ).animate()
+                .fade(duration: 300.ms)
+                .scale(delay: 300.ms);
           }),
           Padding(
             padding: const EdgeInsets.all(16.0),
@@ -277,7 +284,9 @@ class _TicTacToeGameOfflineState extends State<TicTacToeGameOffline> {
                     ? Image.asset('assets/images/2.png', height: 50)
                     : Image.asset('assets/images/1.png', height: 50)
               ],
-            ),
+            ).animate()
+                .fade(duration: 400.ms)
+                .scale(delay: 400.ms),
           ),
         ],
       ),

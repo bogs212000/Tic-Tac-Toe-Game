@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_glow/flutter_glow.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -47,80 +48,80 @@ class _HomeScreenState extends State<HomeScreen> {
     return username == null || username == ""
         ? const Loading()
         : Scaffold(
-            appBar: AppBar(
-              title: Stack(
-                children: [
-                  SizedBox(
-                    height: 35,
-                    width: 90,
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 5),
-                      child: GlowButton(
-                        borderRadius: BorderRadius.circular(20),
-                        onPressed: () {},
-                        color: AppColors.btn_colors,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            wins!.toString().text.bold.size(15).white.make(),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                  Image.asset(AppImages.trophy, height: 40),
-                ],
-              ),
-              backgroundColor: Colors.white,
-              actions: [
-                GestureDetector(
-                  onTap: () {
-                    Get.to(() => ShowQr());
-                  },
-                  child: Image.asset('assets/images/icons8-qr-code-94.png',
-                          height: 30)
-                      .paddingOnly(right: 20),
-                ),
-                GestureDetector(
-                    onTap: () {
-                      Dialogs.bottomMaterialDialog(
-                          msg: 'Are you sure?',
-                          title: 'Sign Out',
-                          context: context,
-                          actions: [
-                            IconsOutlineButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              text: 'Cancel',
-                              iconData: Icons.cancel_outlined,
-                              textStyle: TextStyle(color: Colors.grey),
-                              iconColor: Colors.grey,
-                            ),
-                            IconsOutlineButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                                FirebaseAuth.instance.signOut();
-                                Get.offAll(AuthWrapper());
-                              },
-                              text: 'Continue',
-                              iconData: Icons.logout,
-                              color: Colors.blueAccent,
-                              textStyle: TextStyle(color: Colors.white),
-                              iconColor: Colors.white,
-                            ),
-                          ]);
-                    },
-                    child: const Icon(
-                      Icons.logout,
-                      color: Colors.blue,
-                    )),
-                20.widthBox,
-              ],
-            ),
             body: VxBox(
               child: Column(
                 children: [
+                  10.heightBox,
+                  Row(children: [
+                    Stack(
+                      children: [
+                        SizedBox(
+                          height: 35,
+                          width: 90,
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 5),
+                            child: GlowButton(
+                              borderRadius: BorderRadius.circular(20),
+                              onPressed: () {},
+                              color: AppColors.btn_colors,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  wins!.toString().text.bold.size(15).white.make(),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        Image.asset(AppImages.trophy, height: 40),
+                      ],
+                    ),
+                    Spacer(),
+                    GestureDetector(
+                      onTap: () {
+                        Get.to(() => ShowQr());
+                      },
+                      child: Image.asset('assets/images/icons8-qr-code-94.png',
+                          height: 30)
+                          .paddingOnly(right: 20),
+                    ),
+                    GestureDetector(
+                        onTap: () {
+                          Dialogs.bottomMaterialDialog(
+                              msg: 'Are you sure?',
+                              title: 'Sign Out',
+                              context: context,
+                              actions: [
+                                IconsOutlineButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  text: 'Cancel',
+                                  iconData: Icons.cancel_outlined,
+                                  textStyle: TextStyle(color: Colors.grey),
+                                  iconColor: Colors.grey,
+                                ),
+                                IconsOutlineButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                    FirebaseAuth.instance.signOut();
+                                    Get.offAll(AuthWrapper());
+                                  },
+                                  text: 'Continue',
+                                  iconData: Icons.logout,
+                                  color: Colors.blueAccent,
+                                  textStyle: TextStyle(color: Colors.white),
+                                  iconColor: Colors.white,
+                                ),
+                              ]);
+                        },
+                        child: const Icon(
+                          Icons.logout,
+                          color: Colors.blue,
+                        )),
+                  ],).animate()
+                      .fade(duration: 200.ms)
+                      .scale(delay: 200.ms),
                   Row(
                     children: [
                       Stack(
@@ -149,7 +150,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         ],
                       ),
                     ],
-                  ),
+                  ).animate()
+                      .fade(duration: 300.ms)
+                      .scale(delay: 300.ms) ,
                   150.heightBox,
                   Row(
                     children: [
@@ -206,7 +209,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         Get.to(() => TicTacToeGameOffline9x9());
                       },
                       color: AppColors.btn_colors,
-                      child: 'Multiplayer : 3 player (Offline 5x5)'
+                      child: 'Multiplayer : 3 player (Offline 4x4)'
                           .text
                           .bold
                           .size(20)

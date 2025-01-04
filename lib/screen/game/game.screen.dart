@@ -1,6 +1,7 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_glow/flutter_glow.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
@@ -204,38 +205,112 @@ class _TicTacToeGameState extends State<TicTacToeGame> {
           )
         ],
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          // Current Player or Game Result
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Transform(
-              alignment: Alignment.center,
-              transform: Matrix4.rotationZ(3.14159),
-              child: Text(
-                Get.arguments[0],
-                style: const TextStyle(
-                  fontFamily: AppFonts.quicksand,
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
+      body: VxBox(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            // Current Player or Game Result
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Transform(
+                alignment: Alignment.center,
+                transform: Matrix4.rotationZ(3.14159),
+                child: Text(
+                  Get.arguments[0],
+                  style: const TextStyle(
+                    fontFamily: AppFonts.quicksand,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
                 ),
               ),
-            ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              VxBox().color(Colors.pinkAccent).height(4).width(150).rounded.make(),
-              Image.asset('assets/images/1.png', height: 40,),
-            ],
-          ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Transform(
-              alignment: Alignment.center,
-              transform: Matrix4.rotationZ(3.14159),
+            ).animate()
+                .fade(duration: 100.ms)
+                .scale(delay: 100.ms),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                VxBox()
+                    .color(Colors.pinkAccent)
+                    .height(4)
+                    .width(150)
+                    .rounded
+                    .make(),
+                Image.asset(
+                  'assets/images/1.png',
+                  height: 40,
+                ),
+              ],
+            ).animate()
+                .fade(duration: 200.ms)
+                .scale(delay: 200.ms),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Transform(
+                alignment: Alignment.center,
+                transform: Matrix4.rotationZ(3.14159),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      gameResult ?? 'Player turn: ',
+                      style: const TextStyle(
+                        fontFamily: AppFonts.quicksand,
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
+                    ),
+                    currentPlayer == 'O'
+                        ? Image.asset('assets/images/2.png', height: 50)
+                        : Image.asset('assets/images/1.png', height: 50)
+                  ],
+                ),
+              ),
+            ).animate()
+                .fade(duration: 300.ms)
+                .scale(delay: 300.ms),
+            // Tic Tac Toe Grid
+            ...List.generate(3, (row) {
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: List.generate(3, (col) {
+                  return GestureDetector(
+                    onTap: () => makeMove(row, col),
+                    child: Container(
+                      width: 100,
+                      height: 100,
+                      margin: const EdgeInsets.all(4),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: const [
+                          BoxShadow(
+                            color: Colors.black26,
+                            blurRadius: 8,
+                            offset: Offset(2, 2),
+                          ),
+                        ],
+                      ),
+                      child: grid[row][col] == ''
+                          ? null
+                          : Image.asset(
+                              grid[row][col] == 'X'
+                                  ? 'assets/images/1.png'
+                                  : 'assets/images/2.png',
+                            ).animate()
+                          .fade(duration: 200.ms)
+                          .scale(delay: 200.ms),
+                    ),
+                  );
+                }),
+              ).animate()
+                  .fade(duration: 400.ms)
+                  .scale(delay: 400.ms);
+            }),
+            Padding(
+              padding: const EdgeInsets.all(10),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -250,110 +325,76 @@ class _TicTacToeGameState extends State<TicTacToeGame> {
                   ),
                   currentPlayer == 'O'
                       ? Image.asset('assets/images/2.png', height: 50)
-                      : Image.asset('assets/images/1.png', height: 50)
+                      : Image.asset('assets/images/1.png', height: 50),
+                  // Spacer(),
+                  // Stack(
+                  //   children: [
+                  //     SizedBox(
+                  //       height: 35,
+                  //       width: 90,
+                  //       child: Padding(
+                  //         padding: const EdgeInsets.only(top: 5),
+                  //         child: GlowButton(
+                  //           borderRadius: BorderRadius.circular(20),
+                  //           onPressed: () {},
+                  //           color: AppColors.btn_colors,
+                  //           child: Row(
+                  //             mainAxisAlignment: MainAxisAlignment.end,
+                  //             children: [
+                  //               wins!.toString().text.bold.size(15).white.make(),
+                  //             ],
+                  //           ),
+                  //         ),
+                  //       ),
+                  //     ),
+                  //     Image.asset(AppImages.trophy, height: 40),
+                  //   ],
+                  // ),
                 ],
               ),
-            ),
-          ),
-          // Tic Tac Toe Grid
-          ...List.generate(3, (row) {
-            return Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: List.generate(3, (col) {
-                return GestureDetector(
-                  onTap: () => makeMove(row, col),
-                  child: Container(
-                    width: 100,
-                    height: 100,
-                    margin: const EdgeInsets.all(4),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10),
-                      boxShadow: const [
-                        BoxShadow(
-                          color: Colors.black26,
-                          blurRadius: 8,
-                          offset: Offset(2, 2),
-                        ),
-                      ],
-                    ),
-                    child: grid[row][col] == ''
-                        ? null
-                        : Image.asset(
-                            grid[row][col] == 'X'
-                                ? 'assets/images/1.png'
-                                : 'assets/images/2.png',
-                          ),
-                  ),
-                );
-              }),
-            );
-          }),
-          Padding(
-            padding: const EdgeInsets.all(10),
-            child: Row(
+            ).animate()
+        .fade(duration: 300.ms)
+        .scale(delay: 300.ms),
+            Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
-                  gameResult ?? 'Player turn: ',
-                  style: const TextStyle(
-                    fontFamily: AppFonts.quicksand,
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
-                  ),
+                Image.asset(
+                  'assets/images/2.png',
+                  height: 40,
                 ),
-                currentPlayer == 'O'
-                    ? Image.asset('assets/images/2.png', height: 50)
-                    : Image.asset('assets/images/1.png', height: 50),
-                // Spacer(),
-                // Stack(
-                //   children: [
-                //     SizedBox(
-                //       height: 35,
-                //       width: 90,
-                //       child: Padding(
-                //         padding: const EdgeInsets.only(top: 5),
-                //         child: GlowButton(
-                //           borderRadius: BorderRadius.circular(20),
-                //           onPressed: () {},
-                //           color: AppColors.btn_colors,
-                //           child: Row(
-                //             mainAxisAlignment: MainAxisAlignment.end,
-                //             children: [
-                //               wins!.toString().text.bold.size(15).white.make(),
-                //             ],
-                //           ),
-                //         ),
-                //       ),
-                //     ),
-                //     Image.asset(AppImages.trophy, height: 40),
-                //   ],
-                // ),
+                VxBox()
+                    .color(Colors.blueAccent)
+                    .height(4)
+                    .width(150)
+                    .rounded
+                    .make(),
               ],
-            ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset('assets/images/2.png', height: 40,),
-              VxBox().color(Colors.blueAccent).height(4).width(150).rounded.make(),
-            ],
-          ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Text(
-              FirebaseAuth.instance.currentUser!.email.toString(),
-              style: const TextStyle(
-                fontFamily: AppFonts.quicksand,
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: Colors.black,
+            ).animate()
+        .fade(duration: 200.ms)
+        .scale(delay: 200.ms),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Text(
+                FirebaseAuth.instance.currentUser!.email.toString(),
+                style: const TextStyle(
+                  fontFamily: AppFonts.quicksand,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
               ),
-            ),
-          ),
-        ],
-      ),
+            ).animate()
+        .fade(duration: 100.ms)
+        .scale(delay: 100.ms),
+          ],
+        ),
+      )
+          .height(MediaQuery.of(context).size.height)
+          .width(MediaQuery.of(context).size.width)
+      .white
+          // .bgImage(const DecorationImage(
+          //     image: AssetImage(AppImages.bg), fit: BoxFit.cover))
+          .make(),
     );
   }
 }

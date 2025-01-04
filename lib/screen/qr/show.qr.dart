@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_glow/flutter_glow.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -31,7 +32,9 @@ class _ShowQrState extends State<ShowQr> {
           Padding(
             padding: const EdgeInsets.all(10.0),
             child: 'Do not share an image of your qr code.'.text.size(15).fontFamily(AppFonts.quicksand).make(),
-          ),
+          ).animate()
+              .fade(duration: 100.ms)
+              .scale(delay: 100.ms),
           10.heightBox,
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -43,7 +46,9 @@ class _ShowQrState extends State<ShowQr> {
                   .white
                   .rounded
                   .padding(EdgeInsets.all(5))
-                  .make(),
+                  .make().animate()
+        .fade(duration: 200.ms)
+        .scale(delay: 200.ms),
             ],
           ),
           30.heightBox,
@@ -64,7 +69,9 @@ class _ShowQrState extends State<ShowQr> {
                   .white
                   .make(),
             ),
-          ),
+          ).animate()
+              .fade(duration: 300.ms)
+              .scale(delay: 300.ms),
         ],
       ),
     );
