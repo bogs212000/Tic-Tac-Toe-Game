@@ -199,25 +199,25 @@ class _HomeScreenState extends State<HomeScreen> {
                           .make(),
                     ),
                   ),
-                  20.heightBox,
-                  SizedBox(
-                    height: 50,
-                    width: double.infinity,
-                    child: GlowButton(
-                      borderRadius: BorderRadius.circular(20),
-                      onPressed: () {
-                        Get.to(() => TicTacToeGameOffline9x9());
-                      },
-                      color: AppColors.btn_colors,
-                      child: 'Multiplayer : 3 player (Offline 4x4)'
-                          .text
-                          .bold
-                          .size(20)
-                          .fontFamily('Quicksand')
-                          .white
-                          .make(),
-                    ),
-                  ),
+                  // 20.heightBox,
+                  // SizedBox(
+                  //   height: 50,
+                  //   width: double.infinity,
+                  //   child: GlowButton(
+                  //     borderRadius: BorderRadius.circular(20),
+                  //     onPressed: () {
+                  //       Get.to(() => TicTacToeGameOffline9x9());
+                  //     },
+                  //     color: AppColors.btn_colors,
+                  //     child: 'Multiplayer : 3 player (Offline 4x4)'
+                  //         .text
+                  //         .bold
+                  //         .size(20)
+                  //         .fontFamily('Quicksand')
+                  //         .white
+                  //         .make(),
+                  //   ),
+                  // ),
                 ],
               ),
             )
